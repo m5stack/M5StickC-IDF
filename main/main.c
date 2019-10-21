@@ -27,8 +27,8 @@ static void stickc_test_task(void *arg)
 	float gyroZ = 0;
 
 	float temp = 0;
-    while (1) {
-		
+	while (1) {
+
 		MPU6886getGyroData(&gyroX,&gyroY,&gyroZ);
 		MPU6886getAccelData(&accX,&accY,&accZ);
 		MPU6886getTempData(&temp);
@@ -65,29 +65,29 @@ static void stickc_test_task(void *arg)
 
 		vTaskDelay(300 /portTICK_PERIOD_MS);
 
-    }
+	}
 }
 
 
 void app_main(void)
 {
 	m5stickc_config_t m5config = M5STICKC_CONFIG_DEFAULT();
-    m5config.power.lcd_backlight_level = 3; // Set starting backlight level
+	m5config.power.lcd_backlight_level = 3; // Set starting backlight level
 
 	m5_init(&m5config);
 
 	font_rotate = 0;
-    text_wrap = 0;
-    font_transparent = 0;
-    font_forceFixed = 0;
-    gray_scale = 0;
-    TFT_setGammaCurve(DEFAULT_GAMMA_CURVE);
-    TFT_setRotation(LANDSCAPE);
-    TFT_setFont(SMALL_FONT, NULL);
-    TFT_resetclipwin();
-    TFT_fillScreen(TFT_BLACK);
+	text_wrap = 0;
+	font_transparent = 0;
+	font_forceFixed = 0;
+	gray_scale = 0;
+	TFT_setGammaCurve(DEFAULT_GAMMA_CURVE);
+	TFT_setRotation(LANDSCAPE);
+	TFT_setFont(SMALL_FONT, NULL);
+	TFT_resetclipwin();
+	TFT_fillScreen(TFT_BLACK);
 	TFT_print(">>>M5 StickC<<<", CENTER, 0);
 	vTaskDelay(500 /portTICK_PERIOD_MS);
 
-    xTaskCreate(stickc_test_task, "stickc_test_task", 1024 * 2, (void *)0, 10, NULL);
+	xTaskCreate(stickc_test_task, "stickc_test_task", 1024 * 2, (void *)0, 10, NULL);
 }
