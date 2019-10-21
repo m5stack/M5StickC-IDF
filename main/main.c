@@ -1,15 +1,6 @@
-/* i2c - Example
-
-   For other examples please check:
-   https://github.com/espressif/esp-idf/tree/master/examples
+/* M5StackC - Example
 
    See README.md file to get detailed usage of this example.
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <stdio.h>
 #include "esp_system.h"
@@ -22,30 +13,8 @@
 #include "wire.h"
 #include "AXP192.h"
 
-//static const char *TAG = "i2c-example";
-
-#define DATA_LENGTH 512                  /*!< Data buffer length of test buffer */
-#define RW_TEST_LENGTH 128               /*!< Data length for r/w test, [0,DATA_LENGTH] */
-#define DELAY_TIME_BETWEEN_ITEMS_MS 1000 /*!< delay time between different test items */
-
-static void disp_buf(uint8_t *buf, int len)
+static void stickc_test_task(void *arg)
 {
-    int i;
-    for (i = 0; i < len; i++) {
-        printf("%02x ", buf[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-        }
-    }
-    printf("\n");
-}
-
-int data = 0;
-
-static void i2c_test_task(void *arg)
-{
-    uint32_t task_idx = (uint32_t) arg;
-    uint8_t *data_rd = (uint8_t *)malloc(DATA_LENGTH);
 	char *strbuff = (char *)malloc(64);
 	uint16_t VbatData = 0;
 
@@ -96,7 +65,6 @@ static void i2c_test_task(void *arg)
 
 		vTaskDelay(300 /portTICK_PERIOD_MS);
 
-		//TFT_print("Backlight test", CENTER, (M5DISPLAY_HEIGHT-24)/2 +12);
     }
 }
 
@@ -118,8 +86,8 @@ void app_main(void)
     TFT_setFont(SMALL_FONT, NULL);
     TFT_resetclipwin();
     TFT_fillScreen(TFT_BLACK);
-	TFT_print(">>>FUCK STC<<<", CENTER, 0);
+	TFT_print(">>>M5 StickC<<<", CENTER, 0);
 	vTaskDelay(500 /portTICK_PERIOD_MS);
 
-    xTaskCreate(i2c_test_task, "i2c_test_task_0", 1024 * 2, (void *)0, 10, NULL);
+    xTaskCreate(stickc_test_task, "stickc_test_task", 1024 * 2, (void *)0, 10, NULL);
 }
