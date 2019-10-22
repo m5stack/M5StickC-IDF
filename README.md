@@ -4,6 +4,60 @@
 		Compiler Environment:esp-idf-v3.2.3
 
 ---
+
+.
+├── components
+│   └── m5stickc-idf
+│       ├── include
+│       │   ├── button.h
+│       │   ├── display.h
+│       │   ├── event.h
+│       │   ├── m5stickc.h
+│       │   └── power.h
+│       ├── util
+│       │   ├── font
+│       │   │   ├── DefaultFont.c
+│       │   │   ├── DejaVuSans18.c
+│       │   │   ├── DejaVuSans24.c
+│       │   │   ├── SmallFont.c
+│       │   │   ├── Ubuntu16.c
+│       │   │   ├── comic24.c
+│       │   │   ├── def_small.c
+│       │   │   ├── default_tiny_9pt.c
+│       │   │   ├── minya24.c
+│       │   │   └── tooney32.c
+│       │   ├── include
+│       │   │   ├── AXP192.h
+│       │   │   ├── MPU6886.h
+│       │   │   ├── axp192_reg.h
+│       │   │   ├── spi_master_lobo.h
+│       │   │   ├── stmpe610.h
+│       │   │   ├── tft.h
+│       │   │   ├── tftspi.h
+│       │   │   └── wire.h
+│       │   ├── AXP192.c
+│       │   ├── MPU6886.c
+│       │   ├── spi_master_lobo.c
+│       │   ├── tft.c
+│       │   ├── tftspi.c
+│       │   └── wire.c
+│       ├── CMakeLists.txt
+│       ├── LICENSE
+│       ├── button.c
+│       ├── component.mk
+│       ├── display.c
+│       ├── event.c
+│       ├── m5stickc.c
+│       └── power.c
+├── main
+│   ├── CMakeLists.txt
+│   ├── Kconfig.projbuild
+│   ├── component.mk
+│   └── main.c
+├── CMakeLists.txt
+├── Makefile
+└── sdkconfig
+
 # Versions
 * Version 0.0.1 2019-10-21@Hades
 	* Creat this project
