@@ -11,3 +11,17 @@
 	* Add Wire(I2C) Library
 	* Add AXP192 Library
 	* Add MPU6886 Library
+---
+* Version 0.0.2 2019-10-22@Hades
+	* Edit AXP192 Library 
+	```C
+	float AXP192GetVinVoltage(wire_t *wire)
+	```
+
+	* Edit main-Examples 
+		* Add Demo for LCD
+		* Add Demo for AXP192
+		* Add Demo for MPU6886
+		* Add Demo for Button
+---
+
