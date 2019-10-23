@@ -11,10 +11,8 @@
 │   └── m5stickc-idf
 │       ├── include
 │       │   ├── button.h
-│       │   ├── display.h
-│       │   ├── event.h
-│       │   ├── m5stickc.h
-│       │   └── power.h
+│       │   ├── i2smic.h
+│       │   └── m5stickc.h
 │       ├── util
 │       │   ├── font
 │       │   │   ├── DefaultFont.c
@@ -38,6 +36,7 @@
 │       │   │   └── wire.h
 │       │   ├── AXP192.c
 │       │   ├── MPU6886.c
+│       │   ├── i2smic.c
 │       │   ├── spi_master_lobo.c
 │       │   ├── tft.c
 │       │   ├── tftspi.c
@@ -46,10 +45,7 @@
 │       ├── LICENSE
 │       ├── button.c
 │       ├── component.mk
-│       ├── display.c
-│       ├── event.c
-│       ├── m5stickc.c
-│       └── power.c
+│       └── m5stickc.c
 ├── main
 │   ├── CMakeLists.txt
 │   ├── Kconfig.projbuild
