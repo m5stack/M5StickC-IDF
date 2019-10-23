@@ -637,8 +637,8 @@ void TFT_jpg_image(int x, int y, uint8_t scale, char *fname, uint8_t *buf, int s
  *   scale: image scale factor: 0~7; if scale>0, image is scaled by factor 1/(scale+1)
  *   fname: pointer to the name of the file from which the image will be read
  *   		if set to NULL, image will be read from memory buffer pointed to by 'imgbuf'
- *  imgbuf: pointer to the memory buffer from which the image will be read; used if fname=NULL
- *    size: size of the memory buffer from which the image will be read; used if fname=NULL & imgbuf!=NULL
+ *   imgbuf: pointer to the memory buffer from which the image will be read; used if fname=NULL
+ *   size: size of the memory buffer from which the image will be read; used if fname=NULL & imgbuf!=NULL
  *
  */
 //-------------------------------------------------------------------------------------

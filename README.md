@@ -80,4 +80,15 @@
 		* Add Demo for MPU6886
 		* Add Demo for Button
 ---
+* Version 1.0.1 2019-10-23@Hades
+
+	* remove power.c & power.h
+	* remove event.c & event.h
+	* remove display.c & display.h
+
+	* Edit I2S micophone Examles
+	```C
+	void MicRecordTest()
+	```
+	* edit m5stick.c 
 

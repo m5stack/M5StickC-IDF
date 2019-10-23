@@ -1,37 +1,38 @@
 /**
- * m5stickc.h - ESP-IDF component to work with M5StickC
+ * m5stickc.c
  *
- * Include this header file to use the component.
- *
- * (C) 2019 - Pablo Bacho <pablo@pablobacho.com>
+ * (C) 2019 - Hades2001 <hades2001@foxmail.com>
  * This code is licensed under the MIT License.
  */
 
 #ifndef _STICKC_H_
 #define _STICKC_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "esp_system.h"
 #include "esp_err.h"
 #include "esp_log.h"
 
-#include "power.h"
 #include "button.h"
-#include "display.h"
-#include "event.h"
 #include "util/include/wire.h"
 #include "util/include/MPU6886.h"
+#include "util/include/AXP192.h"
+#include "util/include/spi_master_lobo.h"
+#include "util/include/tftspi.h"
+#include "util/include/tft.h"
 
-typedef struct {
-    m5power_config_t power;
-} m5stickc_config_t;
+extern esp_event_loop_handle_t event_loop;   /*!< Event loop for M5 device-specific events */
+extern spi_lobo_device_handle_t m5display_spi;    /*!< SPI device handle */
 
-#define M5STICKC_CONFIG_DEFAULT() { \
-    .power = M5POWER_CONFIG_DEFAULT() \
-    };
+#define M5DISPLAY_TYPE DISP_TYPE_ST7735S  /*!< Display type for display driver */
+#define M5DISPLAY_WIDTH 160               /*!< Display width in pixels after rotation */
+#define M5DISPLAY_HEIGHT 80               /*!< Display height in pixels after rotation */
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 /**
  * @brief   Initialize M5StickC
@@ -41,7 +42,8 @@ typedef struct {
  * @return  ESP_OK success
  *          ESP_FAIL errors found
  */
-esp_err_t m5_init(m5stickc_config_t * config);
+esp_err_t m5_init();
+esp_err_t event_init();
 
 #ifdef __cplusplus
 }

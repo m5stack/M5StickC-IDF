@@ -453,10 +453,12 @@ void IRAM_ATTR TFT_pushColorRep(int x1, int y1, int x2, int y2, color_t color, u
 //-----------------------------------------------------------------------------------
 void IRAM_ATTR send_data(int x1, int y1, int x2, int y2, uint32_t len, color_t *buf)
 {
+	if (disp_select() != ESP_OK) return;
 	// ** Send address window **
 	x1+=1; y1+=26; x2+=1; y2+=26; // FIXME This hack fixes positioning issue on M5StickC
 	disp_spi_transfer_addrwin(x1, x2, y1, y2);
 	_TFT_pushColorRep(buf, len, 0, 0);
+	disp_deselect();
 }
 
 // Reads 'len' pixels/colors from the TFT's GRAM 'window'

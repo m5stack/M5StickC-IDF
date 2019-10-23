@@ -1,28 +1,130 @@
 /**
- * m5stickc.c - ESP-IDF component to work with M5
+ * m5stickc.h
  *
- * (C) 2019 - Pablo Bacho <pablo@pablobacho.com>
+ * (C) 2019 - Hades2001 <hades2001@foxmail.com>
  * This code is licensed under the MIT License.
  */
+
 
 #include "m5stickc.h"
 
 static const char *TAG = "m5stickc";
 
-esp_event_loop_handle_t m5_event_loop;
+esp_event_loop_handle_t event_loop;
 
-esp_err_t m5_init(m5stickc_config_t * config) {
+uint8_t InitStickC[28] = {
+	'A','X','P',
+	0x06,0,11,
+	0x10,0xff, //1
+	0x28,0xCC, //2
+	0x82,0xff, //3
+	0x33,0xC1, //4
+	0xB8,0x80, //5
+	0x12,0x4D, //6
+	0x36,0x0C, //7
+	0x90,0x02, //8
+	0x30,0xec, //9
+	0x39,0xFC, //10
+	0x35,0xA2, //11
+};
+
+esp_err_t event_init()
+{
+    esp_event_loop_args_t loop_args = {
+        .queue_size = 5,
+        .task_name = "event_loop",
+        .task_priority = 10,
+        .task_stack_size = 2048,
+        .task_core_id = 0
+    };
+
+    esp_err_t e = esp_event_loop_create(&loop_args, &event_loop);
+    if(e == ESP_OK) {
+        ESP_LOGD(TAG, "Event loop created");
+        return ESP_OK;
+    } else {
+        ESP_LOGE(TAG, "Error creating event loop: %s", esp_err_to_name(e));
+        return ESP_FAIL;
+    }
+}
+
+spi_lobo_device_handle_t m5display_spi;
+TimerHandle_t m5display_timer;
+
+esp_err_t m5display_init() {
+    esp_err_t e;
+
+    tft_disp_type = M5DISPLAY_TYPE;
+    _width = 80;  // smaller dimension
+    _height = 160; // larger dimension
+    max_rdclock = 25000000;
+
+    TFT_PinsInit();
+
+    spi_lobo_bus_config_t buscfg = {};
+    buscfg.miso_io_num = PIN_NUM_MISO;				// set SPI MISO pin
+    buscfg.mosi_io_num = PIN_NUM_MOSI;				// set SPI MOSI pin
+    buscfg.sclk_io_num = PIN_NUM_CLK;				// set SPI CLK pin
+    buscfg.quadwp_io_num = -1;
+    buscfg.quadhd_io_num = -1;
+    buscfg.max_transfer_sz = 6*1024;
+
+    spi_lobo_device_interface_config_t devcfg = {};
+    devcfg.clock_speed_hz=25000000;                // Initial clock out at 8 MHz
+    devcfg.mode=0;                                // SPI mode 0
+    devcfg.spics_io_num=-1;                       // we will use external CS pin
+    devcfg.spics_ext_io_num=PIN_NUM_CS;           // external CS pin
+    devcfg.flags=LB_SPI_DEVICE_HALFDUPLEX;        // ALWAYS SET  to HALF DUPLEX MODE!! for display spi
+
+    e = spi_lobo_bus_add_device(TFT_HSPI_HOST, &buscfg, &devcfg, &m5display_spi);
+    if(e != ESP_OK) {
+        ESP_LOGE(TAG, "Error adding display to SPI bus: %s", esp_err_to_name(e));
+        return ESP_FAIL;
+    }
+    disp_spi = m5display_spi;
+
+    // ==== Test select/deselect ====
+    spi_lobo_device_select(m5display_spi, 1);
+    spi_lobo_device_deselect(m5display_spi);
+
+    // Pin reset
+    gpio_set_level((gpio_num_t) PIN_NUM_RST, 1);
+    vTaskDelay(5/portTICK_PERIOD_MS);
+    gpio_set_level((gpio_num_t) PIN_NUM_RST, 0);
+    vTaskDelay(20/portTICK_PERIOD_MS);
+    gpio_set_level((gpio_num_t) PIN_NUM_RST, 1);
+
+    TFT_display_init();
+    TFT_invertDisplay(INVERT_ON);
+
+    // ==== Set SPI clock used for display operations ====
+    spi_lobo_set_speed(m5display_spi, DEFAULT_SPI_CLOCK);
+
+    font_rotate = 0;
+    text_wrap = 0;
+    font_transparent = 0;
+    font_forceFixed = 0;
+    gray_scale = 0;
+    TFT_setGammaCurve(DEFAULT_GAMMA_CURVE);
+    TFT_setRotation(LANDSCAPE);
+    TFT_setFont(DEFAULT_FONT, NULL);
+    TFT_resetclipwin();
+
+    return ESP_OK;
+}
+
+esp_err_t m5_init() {
     esp_err_t e;
     uint8_t error_count = 0;
 
-    m5event_init();
+    event_init();
 
     ESP_LOGI(TAG, "Setting up I2C");
 	e = InitI2CWire(&wire0);
     if(e == ESP_OK) {
         if(e == ESP_OK) {
             // Init power management
-            e = m5power_init(&config->power);
+            AxpinitFromList(&wire0, InitStickC );
             if(e == ESP_OK) {
                 ESP_LOGD(TAG, "Power manager initialized");
             } else {
@@ -38,7 +140,7 @@ esp_err_t m5_init(m5stickc_config_t * config) {
         ++error_count;
     }
     // Init button
-    e = m5button_init();
+    e = button_init();
     if(e == ESP_OK) {
         ESP_LOGD(TAG, "Button initialized");
     } else {
