@@ -18,6 +18,7 @@ esp_err_t InitI2CWire( wire_t* wire )
 											0);
 	return err;
 }
+
 uint8_t I2Creadbyte( wire_t* wire, uint8_t device_addr, uint8_t reg_addr )
 {
 	uint8_t rd_data = 0;
@@ -36,7 +37,8 @@ uint8_t I2CreadBuff( wire_t* wire, uint8_t device_addr, uint8_t reg_addr, uint8_
 	I2CbeginTransmission( wire, device_addr, reg_addr );
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (device_addr << 1) | I2C_MASTER_READ, ACK_CHECK_EN);
-    if (length > 1) {
+    if (length > 1) 
+	{
         i2c_master_read(cmd, rd_buff, length - 1, ACK_VAL);
     }
     i2c_master_read_byte(cmd, rd_buff + length - 1, NACK_VAL);
@@ -95,6 +97,7 @@ wire_t wire0={
 	.io_sda = 21,
 	.i2c_speed = 10000
 };
+
 wire_t wire1=
 {
 	.i2cnum = 1,

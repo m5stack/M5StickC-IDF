@@ -67,14 +67,7 @@ typedef struct
 
 extern button_t button_a; 
 extern button_t button_b; 
-
-
-void IRAM_ATTR button_isr_handler(void *arg);
-esp_err_t button_ioinit(button_t *button);
-esp_err_t ButtonInit();
-void button_task(void *pvParameter);
-
-
+extern esp_err_t ButtonInit();
 
 #ifdef __cplusplus
 }

@@ -1,7 +1,9 @@
 # M5stickC-IDF
-		ESP-IDF component to work with M5StickC.
-		inf: This item is only available for ESP IDF versions below 3.3
-		Compiler Environment:esp-idf-v3.2.3
+
+> ESP-IDF component to work with M5StickC  
+> inf: This item is only available for ESP IDF versions below 3.3  
+> Compiler Environment:esp-idf-v3.2.3  
+> TFT lib base [loboris TFT library ](https://github.com/loboris/ESP32_TFT_library)
 
 ---
 ## File Tree

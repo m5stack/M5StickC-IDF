@@ -21,7 +21,7 @@
 #include "util/include/tft.h"
 
 extern esp_event_loop_handle_t event_loop;   /*!< Event loop for M5 device-specific events */
-extern spi_lobo_device_handle_t m5display_spi;    /*!< SPI device handle */
+extern spi_lobo_device_handle_t m5_display_spi;    /*!< SPI device handle */
 
 #define M5DISPLAY_TYPE DISP_TYPE_ST7735S  /*!< Display type for display driver */
 #define M5DISPLAY_WIDTH 160               /*!< Display width in pixels after rotation */

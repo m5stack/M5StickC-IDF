@@ -9,6 +9,10 @@
 
 static const char *TAG = "button";
 
+esp_err_t button_ioinit(button_t *button);
+void IRAM_ATTR button_isr_handler(void *arg);
+void button_task(void *pvParameter);
+
 ESP_EVENT_DEFINE_BASE(BUTTON_A_EVENT_BASE);
 ESP_EVENT_DEFINE_BASE(BUTTON_B_EVENT_BASE);
 
@@ -16,7 +20,7 @@ button_t button_a = {
     .gpionumber = BUTTON_BUTTON_A_GPIO,
     .Countime = BUTTON_COUNT_TIME,
     .Pressedtime = BUTTON_PRESS_TIME
-    };
+};
 
 button_t button_b = {
     .gpionumber = BUTTON_BUTTON_B_GPIO,
@@ -84,7 +88,7 @@ esp_err_t button_ioinit(button_t *button)
         return ESP_FAIL;
     }
 #else
-    BaseType_t r = xTaskCreate(button_task, "button_task", BUTTON_TASK_STACK_DEPTH, (void *)button, 20, &(button->task));
+    BaseType_t r = xTaskCreate(button_task, "button_task", BUTTON_TASK_STACK_DEPTH, (void *)button, 3, &(button->task));
     if (r != pdPASS)
     {
         ESP_LOGE(TAG, "Error creating button_task");
