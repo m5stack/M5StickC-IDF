@@ -1,6 +1,6 @@
 #include "AXP192.h"
 
-int8_t AxpinitFromList(wire_t *wire, uint8_t *Buff)
+int8_t AxpInitFromList(wire_t *wire, uint8_t *Buff)
 {
     uint16_t offset = 0;
     uint16_t size = 0;

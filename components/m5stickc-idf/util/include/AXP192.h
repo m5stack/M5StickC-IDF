@@ -5,7 +5,7 @@
 #include "esp_log.h"
 #include "wire.h" 
 
-int8_t AxpinitFromList( wire_t* wire, uint8_t* Buff );
+int8_t AxpInitFromList( wire_t* wire, uint8_t* Buff );
 void AxpWriteByte( wire_t* wire, uint8_t Addr ,  uint8_t Data );
 uint8_t  AxpRead8bit( wire_t* wire, uint8_t Addr );
 uint16_t AxpRead12Bit( wire_t* wire, uint8_t Addr);

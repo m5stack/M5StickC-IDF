@@ -111,7 +111,7 @@ esp_err_t button_ioinit(button_t *button)
     return ESP_OK;
 }
 
-esp_err_t button_init()
+esp_err_t ButtonInit()
 {
     esp_err_t e;
 

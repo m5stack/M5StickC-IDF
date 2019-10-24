@@ -42,8 +42,8 @@ extern "C" {
  * @return  ESP_OK success
  *          ESP_FAIL errors found
  */
-esp_err_t m5_init();
-esp_err_t event_init();
+esp_err_t M5Init();
+esp_err_t EventInit();
 
 #ifdef __cplusplus
 }
